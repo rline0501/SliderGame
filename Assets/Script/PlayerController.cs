@@ -7,6 +7,15 @@ public class PlayerController : MonoBehaviour
     //RigitBodyコンポーネントの操作を行うため、Rigitbodyコンポーネントを取得して代入するための変数
     private Rigidbody rb;
 
+    //☆　private修飾子同士は同じ部分にまとめて書くと読みやすくなる
+    private bool isGoal;
+
+    //速度を減速させるための係数
+    private float coefficient = 0.985f;
+
+    //減速中に、この値以下になったら停止させる速度の値
+    private float stopValue = 2.5f;
+
     //Header属性を変数の宣言に追加するとインスペクター上に（　）内に記述した文字が表示される
     [Header("移動速度")]
     public float moveSpeed;
@@ -17,6 +26,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     //制御を行うPhysicsMaterialをインスペクターから登録して値として代入
     private PhysicMaterial pmNoFriction;
+
 
     void Start()
     {
@@ -35,6 +45,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        //ゴール地点を通過したら
+        if(isGoal == true)
+        {
+            //ここで処理を中断する　＝＞　このif文よりも下に書いてある処理が実行されなくなる
+            return;
+        }
+
         //キーボードの左右矢印のキー入力を判定し、-1.0f ～ 1.0fまでの値を代入
         float x = Input.GetAxis("Horizontal");
 
@@ -51,6 +68,23 @@ public class PlayerController : MonoBehaviour
 
         //加速
         Accelerate();
+
+        //ゴール地点を通過したら
+        if(isGoal == true)
+        {
+            //キャラの速度を徐々に下げる
+            rb.velocity *= coefficient;
+
+            //速度Zの値（滑り落ちる速度）が規定値よりも小さくなったら
+            if (rb.velocity.z <= stopValue)
+            {
+                //速度を０にして停止させる
+                rb.velocity = Vector3.zero;
+
+                //物理演算の処理を停止する
+                rb.isKinematic = true;
+            }
+        }
 
     }
 
@@ -103,4 +137,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //ISTriggerがオンのコライダーを持つゲームオブジェクトを通過した場合に呼び出される、コールバック・メソッド
+    private void OnTriggerEnter(Collider other)
+    {
+        //侵入したコライダーのゲームオブジェクトのTagがGoalなら（それ以外のTagなら以下の処理を行わない）
+        if(other.gameObject.tag == "Goal")
+        {
+            Debug.Log("Goal");
+
+            //ゴール地点を通過した状態にする
+            isGoal = true;
+
+            Debug.Log(isGoal);
+        }
+    }
 }
