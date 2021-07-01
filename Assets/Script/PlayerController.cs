@@ -23,9 +23,18 @@ public class PlayerController : MonoBehaviour
     [Header("加速速度")]
     public float accelerationSpeed;
 
+    [Header("ジャンプ力")]
+    public float jumpPower;
+
     [SerializeField]
     //制御を行うPhysicsMaterialをインスペクターから登録して値として代入
     private PhysicMaterial pmNoFriction;
+
+    [SerializeField, Header("地面判定用レイヤー")]
+    private LayerMask groundLayer;
+
+    [SerializeField, Header("斜面との接地判定")]
+    private bool isGrounded;
 
 
     void Start()
@@ -86,7 +95,20 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        //接地判定
+        CheckGround();
+
+        //スペースキーを押したとき、斜面のゲームオブジェクトとキャラが設置している場合
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true)
+        {
+            
+
+            //ジャンプ
+            Jump();
+        }
+
     }
+
 
 
 
@@ -150,5 +172,25 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log(isGoal);
         }
+    }
+
+    private void Jump()
+    {
+        //キャラに上方向の力を咥える
+        rb.AddForce(transform.up * jumpPower);
+
+    }
+
+    /// <summary>
+    /// 斜面との接触判定。trueなら接地している状態。falseは接地していない状態と定義する
+    /// </summary>
+    private void CheckGround()
+    {
+        //Linecastメソッドを実行してキャラの足元に向けて見えないLineを飛ばし
+        //LineにgroundLayer変数で指定したLayer(Ground)を持つゲームオブジェクトが接触するか判定。対象のLayerの時はtrueを返す
+        isGrounded = Physics.Linecast(transform.position, transform.position - transform.up * 0.3f, groundLayer);
+
+        //
+        Debug.DrawLine(transform.position, transform.position - transform.up * 0.3f, Color.red);
     }
 }
