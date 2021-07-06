@@ -17,7 +17,7 @@ public class FrostEffector : MonoBehaviour
         TryGetComponent(out rotateObject);
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnCollisionEnter(Collision col)
     {
         //Playerタグを持つゲームオブジェクト（ペンギン）と接触した際に、まだ１回も接触判定を行っていない(isApplyEffectedの値がfalseである)場合
         if(col.gameObject.tag == "Player" && isApplyEffected == false)

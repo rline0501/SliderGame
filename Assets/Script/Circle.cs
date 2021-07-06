@@ -18,6 +18,9 @@ public class Circle : MonoBehaviour
             //PlayerControllerクラスの情報を取得できるか判定する
             if(col.gameObject.TryGetComponent(out PlayerController player))
             {
+                //Circleのゲームオブジェクトそのものをplayer（ペンギン）に取り込む
+                transform.SetParent(player.transform);
+
                 //PlayerControllerクラスが取得できている場合、
                 //player変数を通じてPlayerControllerクラスに記述されているpublic修飾子のAddscoreメソッドを呼び出す命令をする
                 player.AddScore(point);
@@ -29,9 +32,4 @@ public class Circle : MonoBehaviour
         
     }
 
-    
-    void Update()
-    {
-        
-    }
 }
