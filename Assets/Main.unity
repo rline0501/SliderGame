@@ -13568,7 +13568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5787166cb223c0642a4385bdbe4d5a63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 0}
+  uiManager: {fileID: 1419002919}
   gameTime: 60
 --- !u!4 &612917023
 Transform:

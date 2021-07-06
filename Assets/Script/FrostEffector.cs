@@ -10,6 +10,13 @@ public class FrostEffector : MonoBehaviour
     //１回だけ霜のエフェクトを発生させるための制御用の判定値。falseなら未接触、trueなら接触済
     private bool isApplyEffected;
 
+    private RotateObject rotateObject;
+
+    private void Start()
+    {
+        TryGetComponent(out rotateObject);
+    }
+
     private void OnTriggerEnter(Collider col)
     {
         //Playerタグを持つゲームオブジェクト（ペンギン）と接触した際に、まだ１回も接触判定を行っていない(isApplyEffectedの値がfalseである)場合
@@ -21,6 +28,13 @@ public class FrostEffector : MonoBehaviour
             //MainCameraタグのついているゲームオブジェクトをヒエラルキーから探して、そのゲームオブジェクトにアタッチされているFrostEffectControllerスクリプトの情報を取得し
             //FrostEffectControllerスクリプト内にあるUpdateFrostAmountメソッドを呼び出す命令を行う。引数としてduration変数の値を渡す
             Camera.main.gameObject.GetComponent<FrostEffectController>().UpdateFrostAmount(duration);
+
+            //rotateObject変数で指定したRotateObject型の情報がNullでない場合
+            if(rotateObject != null)
+            {
+                rotateObject.StopTween();
+            }
+
 
             //このゲームオブヘクトを破棄する　＝＞　ゲーム画面に残しておきたい場合にはこの部分は消す
             Destroy(gameObject, 0.5f);

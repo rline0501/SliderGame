@@ -11,6 +11,8 @@ public class RotateObject : MonoBehaviour
     //回転しているか、まだしていないかの状態を設定するための値。falseならまだ回転していない。
     private bool isRotate = false;
 
+    private Tween tween;
+
     private void OnTriggerEnter(Collider col)
     {
         //キャラが一定の距離に入った時、まだ回転していない状態でないなら
@@ -30,7 +32,7 @@ public class RotateObject : MonoBehaviour
     private void Rotate()
     {
         //Z軸のみduration分の時間をかけて回転。回転速度はRandomAngleメソッドの戻り値を利用して、ランダムに左右に倒れるようにする
-        transform.DORotate(new Vector3(0, 0, RandomAngle()), duration);
+        tween = transform.DORotate(new Vector3(0, 0, RandomAngle()), duration);
     }
 
     /// <summary>
@@ -58,6 +60,11 @@ public class RotateObject : MonoBehaviour
         //↑の一連の記述を一行に簡潔化したもの
         //return Random.Range(0, 2) == 0 ? 70 : -70;
 
+    }
+
+    public void StopTween()
+    {
+        tween.Kill();
     }
    
 }
