@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7257021956433875222}
   - component: {fileID: 7230191857473947539}
   - component: {fileID: 7230191857473947536}
+  - component: {fileID: 395429875}
   m_Layer: 0
   m_Name: SnowyTree2
   m_TagString: Untagged
@@ -130,6 +131,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 3.5
+--- !u!114 &395429875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230191857473947538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62fb581179a3e5540b7a2dc5f74129de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6153573354287245907
 PrefabInstance:
   m_ObjectHideFlags: 0

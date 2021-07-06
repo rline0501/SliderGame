@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 7799589541281582743}
   - component: {fileID: 7799589541281582741}
   - component: {fileID: 7799589541281582761}
+  - component: {fileID: 1490510649}
   m_Layer: 0
   m_Name: Mole
   m_TagString: Untagged
@@ -114,7 +115,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7799589541281582738}
-  m_LocalRotation: {x: -0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
@@ -184,6 +185,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e1da182e9b6bcb4f8a3c6470206044f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1490510649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799589541281582738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62fb581179a3e5540b7a2dc5f74129de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7799589541281582740

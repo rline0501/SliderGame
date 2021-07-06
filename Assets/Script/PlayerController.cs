@@ -16,6 +16,12 @@ public class PlayerController : MonoBehaviour
     //減速中に、この値以下になったら停止させる速度の値
     private float stopValue = 2.5f;
 
+    //Animatorコンポーネントの操作を行うため、Animatorコンポーネントを取得して代入するための変数
+    private Animator anim;
+
+    //スコア管理用の変数。Circleゲームオブジェクトを通過するたびにこの値を加算していく
+    private int score;
+
     //Header属性を変数の宣言に追加するとインスペクター上に（　）内に記述した文字が表示される
     [Header("移動速度")]
     public float moveSpeed;
@@ -36,11 +42,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Header("斜面との接地判定")]
     private bool isGrounded;
 
+    [SerializeField]
+    //UIManagerスクリプトを利用するためにUIManagerスクリプトの情報を代入する変数
+    private UIManager uIManager;
+
 
     void Start()
     {
-        //このスクリプトがアタッチされているゲームオブジェクトが持っているRigidbodyコンポーネントの情報をｒｂ変数に代入
+        //このスクリプトがアタッチされているゲームオブジェクトが持っているRigidbodyコンポーネントの情報を取得してｒｂ変数に代入
         rb = GetComponent<Rigidbody>();
+
+        //このスクリプトがアタッチされているゲームオブジェクトが持っているRigidbodyコンポーネントの情報を取得してｒｂ変数に代入
+        anim = GetComponent<Animator>();
     }
 
     private void FixedUpdate() //Updateメソッドではないので注意
@@ -67,7 +80,7 @@ public class PlayerController : MonoBehaviour
         //RigitbodyのVelocity(速度)に、キー入力の判定値と移動速度を代入してキャラを移動
         rb.velocity = new Vector3(x * moveSpeed, rb.velocity.y, rb.velocity.z);
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
     }
 
     private void Update()
@@ -179,6 +192,8 @@ public class PlayerController : MonoBehaviour
         //キャラに上方向の力を咥える
         rb.AddForce(transform.up * jumpPower);
 
+        //引数で指定したパラメーターを再生させる
+        anim.SetTrigger("jump");
     }
 
     /// <summary>
@@ -192,5 +207,24 @@ public class PlayerController : MonoBehaviour
 
         //
         Debug.DrawLine(transform.position, transform.position - transform.up * 0.3f, Color.red);
+    }
+
+    /// <summary>
+    /// スコア加算
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddScore(int amount)
+    {
+        //スコア加算
+        score += amount;
+
+        //そのままscoreとだけ引数に指定しても表示されるが、それでは数字しか表示されないため、
+        //わかりやすいように文字列も一緒に表示させている
+        Debug.Log("現在の得点 :" + score);
+
+        //UIManagerの情報が代入されている変数を利用してUIManaderスクリプトのUpdateDisplayScoreメソッドを呼び出す処理を実行する
+        //引数としてscore変数の値を渡すことで、受け取ったメソッドがその値を利用できる。
+        //この時点でscore変数にはCircleスクリプトから届いているpointの値が加算されているため最新状態
+        uIManager.UpdateDisplayScore(score);
     }
 }
